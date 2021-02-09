@@ -127,12 +127,11 @@ namespace GameBrains.Microbes.Scripts.States
 	        	return;
 	        }
 
-			// With some probability, the agent should give up and go back to sleep because it can't find a mate
-			// Removed. Between hunger, and the random chance of going back to sleep, this happens too often.
-//	        if(Random.value < 0.01) {
-//	        	microbe.StateMachine.ChangeState(Sleeping.Instance);
-//	        	return;
-//	        }
+			// With some probability, the agent should give up and try to see if it can power up 
+	       /* if(Random.value < 0.01) {
+	        	microbe.StateMachine.ChangeState(SeekingPowerUp.Instance);
+	        	return;
+	        }*/
 
 
 			//// adjust for desired mating radius (assume sphere so scale x = scale y = scale z).
@@ -173,7 +172,7 @@ namespace GameBrains.Microbes.Scripts.States
 
             // adjust attraction radius based one hunger
 	        microbe.Attractor.Strength = 20000; // could also adjust strength
-	        microbe.Attractor.radius = 500 * microbe.LifeSpan.Age; // the microbe gets more desparate to mate as it ages
+	        microbe.Attractor.radius = 500 * microbe.LifeSpan.Age; // the microbe gets more desperate to mate as it ages
 	        microbe.Attractor.AttractTypes = microbe.MateTypes; // could change food type
 
 
