@@ -3,18 +3,19 @@ using GameBrains.Microbes.Scripts.Movement;
 using UnityEngine;
 
 namespace GameBrains.Microbes.Scripts.Entities{
+    /* Stores all the different types of power */
     public enum PowerUpType{
         Invincible=0
     }
-    public class PowerUp : Entity
+
+    public class PowerUp : MonoBehaviour
     {
         /* By default the power up type is invincibility */
         public PowerUpType type=PowerUpType.Invincible;
         public Motor Motor { get; set; }
 
-        public override void Awake()
+        public void Awake()
         {
-            base.Awake();
             Motor = gameObject.GetComponent<Motor>();
         }
     }

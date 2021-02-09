@@ -135,10 +135,10 @@ namespace GameBrains.Microbes.Scripts.States
 				microbe.StateMachine.ChangeState(Dating.Instance);
 			}
             /* Some times the microbe will try and see if there are power-ups nearby */
-            // if(Random.value < 0.2) {
-            //     microbe.StateMachine.ChangeState(SeekingPowerUp.Instance);
-            //     return;
-            // }
+            if(Random.value < 0.2) {
+                microbe.StateMachine.ChangeState(SeekingPowerUp.Instance);
+                return;
+            }
         }
 
         /// <summary>

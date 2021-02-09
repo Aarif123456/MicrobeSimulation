@@ -128,10 +128,10 @@ namespace GameBrains.Microbes.Scripts.States
 	        }
 
 			// With some probability, the agent should give up and try to see if it can power up 
-	       /* if(Random.value < 0.01) {
+	        if(Random.value < 0.01) {
 	        	microbe.StateMachine.ChangeState(SeekingPowerUp.Instance);
 	        	return;
-	        }*/
+	        }
 
 
 			//// adjust for desired mating radius (assume sphere so scale x = scale y = scale z).
