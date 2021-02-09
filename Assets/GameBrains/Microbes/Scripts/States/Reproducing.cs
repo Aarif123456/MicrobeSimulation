@@ -81,7 +81,7 @@ namespace GameBrains.Microbes.Scripts.States
         }
 
         /// <summary>
-        /// Gets the accessor for the <see cref="Reproducing"/> singleton instance.
+        /// Gets the accessors for the <see cref="Reproducing"/> singleton instance.
         /// </summary>
         public static Reproducing Instance
         {

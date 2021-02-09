@@ -77,7 +77,7 @@ namespace GameBrains.Microbes.Scripts.Entities
         [SerializeField] AudioClip microbeDeathSound;
 
         [SerializeField] float updatesPerSecond = 10f;
-
+        [SerializeField] float maxInvinciblityTimer=10f;
         [SerializeField] int hungerThreshold = 120;
         [SerializeField] int cannibalismThreshold = 240;
         [SerializeField] float invinciblityTimer = 0.0f;
@@ -133,10 +133,9 @@ namespace GameBrains.Microbes.Scripts.Entities
             StateMachine = new StateMachine<Microbe>(this);
             StateMachine.SetCurrentState(Sleeping.Instance);
             StateMachine.SetGlobalState(MicrobeGlobalState.Instance);
-
-            SimpleRegulator = new SimpleRegulator(updatesPerSecond); // control updates per second
-
-
+            
+            // control updates per second
+            SimpleRegulator = new SimpleRegulator(updatesPerSecond); 
             // Making sure the things that get set when the microbe dies are turned on.
             // This seems to be an issue with reproducing microbes that have been recently killed.
             gameObject.GetComponent<Collider>().isTrigger = false;
@@ -168,7 +167,7 @@ namespace GameBrains.Microbes.Scripts.Entities
         /// </summary>
         public bool IsHungry => Hunger >= hungerThreshold;
 
-        // Gets a value indicating whether the microbe has resorted to canabalism (ie: Eating its own microbe type)
+        // Gets a value indicating whether the microbe has resorted to cannibalism (ie: Eating its own microbe type)
         public bool IsCannibalistic => Hunger >= cannibalismThreshold;
 
         public MicrobeTypes MicrobeType
@@ -181,7 +180,6 @@ namespace GameBrains.Microbes.Scripts.Entities
         {
             base.Start();
             StateMachine.CurrentState.Enter(this);
-
             AudioSource.PlayOneShot(microbeBirthSound);
         }
 
@@ -189,6 +187,7 @@ namespace GameBrains.Microbes.Scripts.Entities
         {
             if (SimpleRegulator.IsReady)
             {
+
                 Hunger++;
                 StateMachine.Update();
             }
@@ -210,9 +209,17 @@ namespace GameBrains.Microbes.Scripts.Entities
             return StateMachine.HandleMessage(message);
         }
 
+        /* Microbes can eat each other */
+        public void Kill(){
+            if(!invincible){
+                Die();
+            }
+        }
+
+        /* Some cases require death - without regard for invincibility */
         public void Die()
         {
-            if (!isDead && !invincible)
+            if (!isDead)
             {
                 UpdateStateDisplay("");
 
@@ -238,14 +245,11 @@ namespace GameBrains.Microbes.Scripts.Entities
 
         public void UpdateStateDisplay(string display)
         {
-            stateDisplay.text = display;
+            if (stateDisplay != null) {
+                stateDisplay.text = display;
+            }
         }
 
-        /// <summary>
-        /// TODO: modify the Spawn method to suit your reproductive needs :-)
-        /// Hint: Besides creating a new microbe of a given type at a given position,
-        /// you can change its size, food preferences, etc.
-        /// </summary>
         /// <param name="microbePrefab"></param>
         /// <param name="microbeType">
         /// The type of microbe to create.
@@ -324,10 +328,14 @@ namespace GameBrains.Microbes.Scripts.Entities
         }
 
 
-        // Attempt to reproduce with the other microbe. If it's successful, a new microbe will spawn between the two of them.
-        // Usually, both microbes will undergo this procedure. This is why there's a probability; Both microbes act as the "mother".
-        //
-        // There is also a probability that the microbe will stay in the reproduction state after mating.
+        /* Attempt to reproduce with the other microbe. If it's successful, a new
+        *  microbe will spawn between the two of them.
+        *  Usually, both microbes will undergo this procedure. This is why there's a 
+        *  probability; Both microbes act as the "mother".
+        *
+        *  There is also a probability that the microbe will stay in 
+        *  the reproduction state after mating. 
+        */
         public bool AttemptReproduction(Microbe otherMicrobe)
         {
             // Test if reproduction failed.
@@ -338,7 +346,7 @@ namespace GameBrains.Microbes.Scripts.Entities
 
             // Generating the spawn pos, and the child's microbe type
             // Causes big explosions microbes when a bunch are birthed in the same area. Looks hilarious.
-            //Vector2 spawnPos = (transform.position + otherMicrobe.transform.position) / 2;
+            // Vector2 spawnPos = (transform.position + otherMicrobe.transform.position) / 2;
             MicrobeTypes childType = GenerateChildMicrobeType(otherMicrobe.MicrobeType);
             Vector2 spawnPos = spawner.GetValidSpawnPosition();
 
@@ -452,6 +460,25 @@ namespace GameBrains.Microbes.Scripts.Entities
                 default:
                     return Color.magenta;
             }
+        }
+        /* Invincibility */
+        /*************************************************************************/
+        public void BecomeInvincible(){
+            invinciblityTimer = maxInvinciblityTimer;
+            invincible = true;
+            StateMachine.ChangeState(Invincible.Instance);
+        }
+
+        public void UpdateInvincibilityTimer(){
+            invinciblityTimer -= Time.deltaTime;
+            if(invinciblityTimer <= 0f){
+                StateMachine.ChangeState(Sleeping.Instance);
+            }
+        } 
+
+        public void LoseInvincibility(){
+            invincible = false;
+            invinciblityTimer = 0f;
         }
     }
 }

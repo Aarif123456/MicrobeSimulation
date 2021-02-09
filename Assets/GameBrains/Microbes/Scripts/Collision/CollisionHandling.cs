@@ -49,6 +49,7 @@
 #endregion Copyright � ThotLab Games 2011. Licensed under the terms of the Microsoft Reciprocal Licence (Ms-RL).
 
 using UnityEngine;
+using GameBrains.Microbes.Scripts.Entities;
 
 namespace GameBrains.Microbes.Scripts.Collision
 {
@@ -58,32 +59,37 @@ namespace GameBrains.Microbes.Scripts.Collision
 
         #region Microbe Access
 
-        ////Microbe microbe;
+        Microbe microbe;
 
-        ////public void Awake()
-        ////{
-        ////    microbe = gameObject.GetComponent<Microbe>();
-        ////}
+        public void Awake()
+        {
+           microbe = gameObject.GetComponent<Microbe>();
+        }
 
         #endregion Microbe Access
 
         //// If you want to handle collisions, you can do it here
 
-        #region Collision Handling
+        // #region Collision Handling
 
-        ////public void OnCollisionEnter(Collision collision)
+        public void OnCollisionEnter(UnityEngine.Collision collision)
+        {
+            if(collision.collider.tag == "collectible") {
+                Destroy(collision.collider.gameObject);
+                microbe.BecomeInvincible();
+            }
+
+        }
+
+        ////public void OnCollisionStay(UnityEngine.Collision collision)
         ////{
         ////}
 
-        ////public void OnCollisionStay(Collision collision)
+        ////public void OnCollisionExit(UnityEngine.Collision collision)
         ////{
         ////}
 
-        ////public void OnCollisionExit(Collision collision)
-        ////{
-        ////}
-
-        #endregion Collision Handling
+        // #endregion Collision Handling
 
         //// If you set microbe.collider.isTrigger = true; then the microbes will no longer collide and bounce off each other.
         //// Instead, you can intercept the collision trigger below and do what you want when microbes touch.

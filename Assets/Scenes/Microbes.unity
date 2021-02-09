@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 41}
   - component: {fileID: 28}
   - component: {fileID: 33}
+  - component: {fileID: 29}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -708,6 +709,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &29
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ee31042412ef804182125bb065f0b62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cubePrefab: {fileID: 1292348722847205644, guid: 16efca9ddcd77784fa7a2ffccc52b40b,
+    type: 3}
+  spawnPointRadius: 1
+  updatesPerSecond: 0.1
+  xMin: -10
+  zMin: -10
+  xMax: 10
+  zMax: 10
 --- !u!108 &30
 Light:
   m_ObjectHideFlags: 0
@@ -843,8 +864,10 @@ MonoBehaviour:
   microbeBirthSound: {fileID: 8300000, guid: c464d004de12f4a1984ba9cf484ce2fb, type: 3}
   microbeDeathSound: {fileID: 8300000, guid: a219409b59a064b0fb3462346e041a43, type: 3}
   updatesPerSecond: 10
+  maxInvinciblityTimer: 10
   hungerThreshold: 30
   cannibalismThreshold: 240
+  invinciblityTimer: 0
   microbeType: 0
 --- !u!114 &36
 MonoBehaviour:

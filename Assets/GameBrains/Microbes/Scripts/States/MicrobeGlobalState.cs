@@ -79,7 +79,7 @@ namespace GameBrains.Microbes.Scripts.States
         }
 
         /// <summary>
-        /// Gets the accessor for the <see cref="MicrobeGlobalState"/> singleton instance.
+        /// Gets the accessors for the <see cref="MicrobeGlobalState"/> singleton instance.
         /// </summary>
         public static MicrobeGlobalState Instance
         {
@@ -141,7 +141,7 @@ namespace GameBrains.Microbes.Scripts.States
             switch ((MicrobeMessageTypes)message.Msg)
             {
                 case MicrobeMessageTypes.YouJustGotSwallowed:
-                    microbe.Die();
+                    microbe.Kill();
                     return true;
             }
 
