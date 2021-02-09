@@ -80,6 +80,7 @@ namespace GameBrains.Microbes.Scripts.Entities
 
         [SerializeField] int hungerThreshold = 120;
         [SerializeField] int cannibalismThreshold = 240;
+        [SerializeField] float invinciblityTimer = 0.0f;
 
         // The type of microbe we are.
         [SerializeField] MicrobeTypes microbeType;
@@ -87,7 +88,7 @@ namespace GameBrains.Microbes.Scripts.Entities
         static readonly MicrobeTypes[] MicrobeTypeArray =
             {MicrobeTypes.Blue, MicrobeTypes.Red, MicrobeTypes.Green, MicrobeTypes.Yellow};
 
-        bool isDead;
+        bool isDead, invincible;
 
         // Text display showing what state the microbe is in
         TextMesh stateDisplay;
@@ -144,7 +145,7 @@ namespace GameBrains.Microbes.Scripts.Entities
             // Initializing the state display that shows what state the microbe is in
             // Pretty sure sleeping is the default state.:w
             stateDisplay = gameObject.GetComponentInChildren<TextMesh>();
-            UpdateStateDisplay("Sleeping");
+            if(stateDisplay != null) UpdateStateDisplay("Sleeping");
         }
 
         /// <summary>
@@ -211,7 +212,7 @@ namespace GameBrains.Microbes.Scripts.Entities
 
         public void Die()
         {
-            if (!isDead)
+            if (!isDead && !invincible)
             {
                 UpdateStateDisplay("");
 

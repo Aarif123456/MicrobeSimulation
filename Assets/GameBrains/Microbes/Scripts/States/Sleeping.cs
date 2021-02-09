@@ -165,7 +165,7 @@ namespace GameBrains.Microbes.Scripts.States
             {
                 case MicrobeMessageTypes.LetsMakeABaby:
                 	// Make sure that the microbe that sent the message is a suitable mate
-                	// Not sure if "as Microbe" is necessary, I think the <Microbe> accounts for the inherritance 
+                	// Not sure if "as Microbe" is necessary, I think the <Microbe> accounts for the inheritance 
                 	Microbe sender = EntityManager.Find<Microbe>(message.Sender);
 
                 	if(sender) {
